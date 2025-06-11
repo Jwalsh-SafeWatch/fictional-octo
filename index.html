@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CCTV Camera Offline Notification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY"); // ← Replace with your public key
+    })();
+  </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Camera Offline Notification</h1>
+    <form id="notificationForm" class="space-y-4">
+      <div>
+        <label for="dealer" class="block text-sm font-medium text-gray-700">Select Dealer</label>
+        <select id="dealer" name="to_email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+          <option value="" disabled selected>Select a dealer</option>
+        </select>
+      </div>
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700">Site Address</label>
+        <input type="text" id="address" name="site_address" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder="Enter full address">
+      </div>
+      <div>
+        <label for="issue" class="block text-sm font-medium text-gray-700">Issue Description</label>
+        <textarea id="issue" name="issue_description" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" rows="4" placeholder="Describe the camera issue"></textarea>
+      </div>
+      <div>
+        <label for="contact" class="block text-sm font-medium text-gray-700">Client Contact Details</label>
+        <textarea id="contact" name="contact_details" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" rows="4" placeholder="Who was contacted and what was said about power/internet"></textarea>
+      </div>
+      <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Send Notification</button>
+    </form>
+  </div>
+
+  <script>
+    const dealers = [
+      { name: "Dealer A", email: "dealerA@example.com" },
+      { name: "Dealer B", email: "dealerB@example.com" },
+      { name: "Dealer C", email: "dealerC@example.com" }
+    ];
+
+    const dealerSelect = document.getElementById("dealer");
+    dealers.forEach(dealer => {
+      const option = document.createElement("option");
+      option.value = dealer.email;
+      option.textContent = dealer.name;
+      dealerSelect.appendChild(option);
+    });
+
+    document.getElementById("notificationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+        .then(() => {
+          alert("Notification submitted and email sent successfully!");
+          this.reset();
+        }, (error) => {
+          console.error("EmailJS error:", error);
+          alert("Failed to send email. Please try again.");
+        });
+    });
+  </script>
+</body>
+</html>
