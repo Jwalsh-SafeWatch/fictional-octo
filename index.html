@@ -56,7 +56,7 @@
     document.getElementById("notificationForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+      emailjs.sendForm('service_p3i0dlm', 'template_umjq12a', this)
         .then(() => {
           alert("Notification submitted and email sent successfully!");
           this.reset();
